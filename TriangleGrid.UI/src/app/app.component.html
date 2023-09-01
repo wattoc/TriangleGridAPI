@@ -1,0 +1,21 @@
+<div class="container">
+
+  <h1 id="tableLabel">Triangle Grid</h1>
+
+  <div>This application allows calculating coordinates of a right-angled triangle within a grid or the coordinates of the grid for a triangle within it</div>
+
+  <div class="container">
+    <div class="row">
+      <label class="col-sm-1 col-form-label">Grid Size</label>
+      <div class="col-sm-5">
+        <input class="form-control" type="number" [(ngModel)]="gridSize" />
+      </div>
+      <label class="col-sm-1 col-form-label">Triangle Side Size</label>
+      <div class="col-sm-5">
+        <input class="form-control" type="number" [(ngModel)]="triangleSideSize" />
+      </div>
+    </div>
+  </div>
+  <hr />
+  <triangle-grid [gridSize]="gridSize" [triangleSideSize]="triangleSideSize" />
+</div>

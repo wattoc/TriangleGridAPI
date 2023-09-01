@@ -1,0 +1,52 @@
+<div class="container">
+  <div *ngIf="errorMessage" class="alert alert-warning" role="alert">
+    <strong>Error:</strong> {{errorMessage}}
+  </div>
+  <h1>Get triangle for coordinates</h1>
+  <div class="row my-3">
+    <label class="col-sm-2 col-form-label" for="triangleRow">Row</label>
+    <div class="col-sm-10">
+      <input class="form-control form-control-sm" id="triangleRow" type="text" [(ngModel)]="triangleRow" />
+    </div>
+  </div>
+  <div class="row">
+    <label class="col-sm-2 col-form-label" for="triangleColumn">Column</label>
+    <div class="col-sm-10">
+      <input class="form-control form-control-sm" id="triangleColumn" type="number" [(ngModel)]="triangleColumn" />
+    </div>
+  </div>
+  <div class="row my-3">
+    <div class="col">
+      <button id="requestTriangle" class="btn btn-primary" (click)="getTriangle()">Get Triangle</button>
+    </div>
+  </div>
+  <div *ngIf="triangleResult">
+    <div *ngFor="let triangle of triangleResult.coordinates; let i = index;">
+      <div>Coordinate {{ i }}: ({{triangle.x}}, {{triangle.y}})</div>
+    </div>
+  </div>
+</div>
+<hr />
+<div class="container">
+  <h1>Get grid for triangle</h1>
+  <div *ngFor="let coord of requestTriangle; let i = index; trackBy: trackBy">
+    <div class="row">
+      <label class="col-sm-1 col-form-label" for="triangleX">X{{i}}</label>
+      <div class="col-sm-5">
+        <input class="form-control form-control-sm" id="triangleX" type="text" [(ngModel)]="requestTriangle[i].x" />
+      </div>
+      <label class="col-sm-1 col-form-label" for="triangleY">Y{{i}}</label>
+      <div class="col-sm-5">
+        <input class="form-control form-control-sm" id="triangleY" type="number" [(ngModel)]="requestTriangle[i].y" />
+      </div>
+    </div>
+  </div>
+  <div class="row my-3">
+    <div class="col">
+      <button id="requestGrid" class="btn btn-primary" (click)="getGrid()">Get Grid Coordinates</button>
+    </div>
+  </div>
+  <div *ngIf="gridResult">
+    <div>Row: {{gridResult.row}} Col: {{gridResult.column}}</div>
+  </div>
+</div>
