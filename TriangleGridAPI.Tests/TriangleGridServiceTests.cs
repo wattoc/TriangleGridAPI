@@ -6,18 +6,20 @@ namespace TriangleGridAPI.Tests
 {
     public class TriangleGridServiceTests
     {
-        private ITriangleGridService Service;
+        private ITriangleGridService _service;
+        private const int GRID_SIZE = 6;
+        private const int TRIANGLE_SIZE_SIZE = 10;
 
         [SetUp]
         public void Setup()
         {
-            Service = new TriangleGridService(6, 10);
+            _service = new TriangleGridService();
         }
 
         [Test]
         public void GridTopLeft_ShouldReturnTopLeftTriangle()
         {
-            var triangle = Service.GetTriangleAtGridCoordinates(new GridCoordinate("A", 1));
+            var triangle = _service.GetTriangleAtGridCoordinates(GRID_SIZE, TRIANGLE_SIZE_SIZE, new GridCoordinate("A", 1));
 
             Assert.IsNotNull(triangle);
             Assert.That(triangle.HasVerticeAt(0, 0));
@@ -28,7 +30,7 @@ namespace TriangleGridAPI.Tests
         [Test]
         public void GridBottomRight_ShouldReturnBottomRightTriangle()
         {
-            var triangle = Service.GetTriangleAtGridCoordinates(new GridCoordinate("F", 12));
+            var triangle = _service.GetTriangleAtGridCoordinates(GRID_SIZE, TRIANGLE_SIZE_SIZE, new GridCoordinate("F", 12));
 
             Assert.IsNotNull(triangle);
             Assert.That(triangle.HasVerticeAt(50, 50));
@@ -39,7 +41,7 @@ namespace TriangleGridAPI.Tests
         [Test]
         public void GridC4_ShouldReturnTriangleC4Vertices()
         {
-            var triangle = Service.GetTriangleAtGridCoordinates(new GridCoordinate("C", 4));
+            var triangle = _service.GetTriangleAtGridCoordinates(GRID_SIZE, TRIANGLE_SIZE_SIZE, new GridCoordinate("C", 4));
 
             Assert.IsNotNull(triangle);
             Assert.That(triangle.HasVerticeAt(10, 20));
@@ -52,7 +54,7 @@ namespace TriangleGridAPI.Tests
         {
             var triangle = new Triangle(new Point(0, 0), new Point(0, 10), new Point(10, 10));
 
-            var gridLoc = Service.GetGridCoordinateForTriangle(triangle);
+            var gridLoc = _service.GetGridCoordinateForTriangle(GRID_SIZE, TRIANGLE_SIZE_SIZE, triangle);
 
             Assert.IsNotNull(gridLoc);
             Assert.That(gridLoc.Column == 1);
@@ -62,9 +64,9 @@ namespace TriangleGridAPI.Tests
         [Test]
         public void TriangleBottomRight_ShouldReturnGridBottomRight()
         {
-            var triangle = new Triangle(new Point(0, 0), new Point(0, 10), new Point(10, 10));
+            var triangle = new Triangle(new Point(50, 50), new Point(60, 50), new Point(60, 60));
 
-            var gridLoc = Service.GetGridCoordinateForTriangle(triangle);
+            var gridLoc = _service.GetGridCoordinateForTriangle(GRID_SIZE, TRIANGLE_SIZE_SIZE, triangle);
 
             Assert.IsNotNull(gridLoc);
             Assert.That(gridLoc.Column == 12);
@@ -74,9 +76,9 @@ namespace TriangleGridAPI.Tests
         [Test]
         public void TriangleC4Vertices_ShouldReturnGridC4()
         {
-            var triangle = new Triangle(new Point(0, 0), new Point(0, 10), new Point(10, 10));
+            var triangle = new Triangle(new Point(10, 20), new Point(20, 20), new Point(20, 30));
 
-            var gridLoc = Service.GetGridCoordinateForTriangle(triangle);
+            var gridLoc = _service.GetGridCoordinateForTriangle(GRID_SIZE, TRIANGLE_SIZE_SIZE, triangle);
 
             Assert.IsNotNull(gridLoc);
             Assert.That(gridLoc.Column == 4);
@@ -89,13 +91,13 @@ namespace TriangleGridAPI.Tests
         {
             var triangle = new Triangle(new Point(100, 200), new Point(200, 200), new Point(200, 300));
 
-            Assert.Throws<ArgumentException>(() => Service.GetGridCoordinateForTriangle(triangle));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _service.GetGridCoordinateForTriangle(GRID_SIZE, TRIANGLE_SIZE_SIZE, triangle));
         }
 
         [Test]
         public void GridOutside_ShouldThrowException()
         {
-            Assert.Throws<ArgumentException>(() => Service.GetTriangleAtGridCoordinates(new GridCoordinate("Z", 99)));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _service.GetTriangleAtGridCoordinates(GRID_SIZE, TRIANGLE_SIZE_SIZE, new GridCoordinate("Z", 99)));
         }
 
     }
